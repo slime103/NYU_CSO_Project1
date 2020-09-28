@@ -1,7 +1,8 @@
 // Written by Zachary Stephens
 #include<stdio.h>
 
-int validateMonth(int MM, int DD)
+//validates whether a given day is in a given month
+int validateDay(int MM, int DD)
 {
     switch (MM)
     {
@@ -16,10 +17,6 @@ int validateMonth(int MM, int DD)
             {
                 return 1;
             }
-            else
-            {
-                return 0;
-            }
         break;
         case 4:
         case 6:
@@ -29,24 +26,15 @@ int validateMonth(int MM, int DD)
             {
                 return 1;
             }
-            else
-            {
-                return 0;
-            }
         break;
         case 2:
-            if (DD <= 29)
+            if (DD <= 29) //29 to include leap years
             {
                 return 1;
             }
-            else
-            {
-                return 0;
-            }
         break;
-        default:
-            return 0;
     }
+    return 0;
 }
 
 //Takes Date and Time integers and stores them in a single int32
@@ -59,7 +47,7 @@ int compressDate(int MM, int DD, int hh, int mm, int ss)
     {
         return 0;
     }
-    if (!validateMonth(MM,DD))
+    if (!validateDay(MM,DD))
     {
         return 0;
     }
