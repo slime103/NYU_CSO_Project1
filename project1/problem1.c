@@ -1,6 +1,55 @@
-// implement your program here
+// Written by Zachary Stephens
 #include<stdio.h>
 
+int validateMonth(int MM, int DD)
+{
+    switch (MM)
+    {
+        case 1:
+        case 3:
+        case 5:
+        case 7:
+        case 8:
+        case 10:
+        case 12:
+            if (DD <= 31)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        break;
+        case 4:
+        case 6:
+        case 9:
+        case 11:
+            if (DD <= 30)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        break;
+        case 2:
+            if (DD <= 29)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        break;
+        default:
+            return 0;
+    }
+}
+
+//Takes Date and Time integers and stores them in a single int32
 int compressDate(int MM, int DD, int hh, int mm, int ss)
 {
     int  final = 0;
@@ -10,8 +59,12 @@ int compressDate(int MM, int DD, int hh, int mm, int ss)
     {
         return 0;
     }
+    if (!validateMonth(MM,DD))
+    {
+        return 0;
+    }
 
-    //load the bits in from right to left i.e months -> days etc. and tens -> ones
+    //set the bits from left to right i.e months -> days etc. and tens -> ones
 
     //bit 30 - month tens
     final |= (MM >= 10) ? 0b1 << 30 : 0;
@@ -48,15 +101,38 @@ int compressDate(int MM, int DD, int hh, int mm, int ss)
 
 int decompressDate(int dateTime)
 {
+    //TODO
     return dateTime;
 }
 
 int main()
 {
-    //Test Value 11/25 12:53:32
-    printf("Compressed Date/time: %d \n", compressDate(11,25,12,53,32));
-    printf("1179953586\n");
+    int n;
 
+    scanf("%d\n", &n);
+
+    for (int i = 0; i < n; i++)
+    {
+        //11/25 12:53:32
+        int MM,DD,hh,mm,ss;
+        char temp;
+
+        scanf("%d %c %d %d %c %d %c %d\n", &MM,&temp,&DD,&hh,&temp,&mm,&temp,&ss);
+        printf("%d/%d  %d:%d:%d\n", MM,DD,hh,mm,ss);
+
+        if (compressDate(MM,DD,hh,mm,ss))
+        {
+            printf("Compressed Version: %d \n", compressDate(MM,DD,hh,mm,ss));
+        }
+        else
+        {
+            printf("INVALID\n");
+        }
+    }
 
     return 0;
 }
+
+//Testing
+//gcc problem1.c -o problem1
+//./problem1 < test1.in
