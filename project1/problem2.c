@@ -2,6 +2,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 
+//Takes an int 0-15 to convert to Hex Value char
 char convertToChar(int z)
 {
     switch(z)
@@ -51,12 +52,26 @@ char convertToChar(int z)
         case 15:
             return 'f';
         break;
+        default:
+            return '0';
     }
 }
 
-
+//Takes RGB int values to convert to characters and insert into a char[]
 void convertToHex(char *final, int r, int g, int b)
 {
+    //validate input
+    if (r > 255 || r < 0 || g > 255 || g < 0 || b > 255 || b <0)
+    {
+        final[0] = 'I';
+        final[1] = 'N';
+        final[2] = 'V';
+        final[3] = 'A';
+        final[4] = 'L';
+        final[5] = 'I';
+        final[6] = 'D';
+        return;
+    }
 
     int bitMask = 0b1111;
 
@@ -68,21 +83,35 @@ void convertToHex(char *final, int r, int g, int b)
     final[5] = convertToChar(b >> 4);
     final[6] = convertToChar(b & bitMask);
 
-
-    //char rr = convertToChar(r >> 4);
-    //char rrr = convertToChar(r & bitMask);
-
-    //printf("Jason: %c\n", rr);
-    //printf("Dima: %c\n", rrr);
-
 }
 
 int main()
 {
     char result[8];
 
-    convertToHex(result, 100,150,200);
-    printf("Result: %s\n", result);
+    int n;
+
+    int r,g,b;
+
+    scanf("%i", &n);
+
+    //printf("%i\n", n);
+
+    for(int i = 0; i < n; i++)
+    {
+        //Grab input
+        scanf("%d %*s %d %*s %d\n", &r,&g,&b);
+        //printf("%d %d %d\n", r,g,b);
+
+        //put the input into result
+        convertToHex(result, r,g,b);
+        printf("%s\n", result);
+    }
 
     return 0;
 }
+
+
+//Testing
+//gcc problem2.c -o problem2
+//./problem2 < test2.in
